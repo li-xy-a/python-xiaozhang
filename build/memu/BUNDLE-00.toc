@@ -1,3 +1,0 @@
-([('memu',
-   '/Users/lixinyun/PycharmProjects/xiaozhang/dist/memu',
-   'EXECUTABLE')],)
