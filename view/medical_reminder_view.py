@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem, QWidget
-
 import func.medical_reminder as mr
 
 """
@@ -13,12 +12,20 @@ class MedicalReminderPage(QWidget):
 
         self.layout = QVBoxLayout(self)
 
-        self.button = QPushButton('点击查看医疗期到期人员', self)
+        # 创建按钮
+        self.button = QPushButton('点击更新医疗期到期人员', self)
+        # 增加点击事件
         self.button.clicked.connect(self.on_button_click)
+        # 按钮放入页面
         self.layout.addWidget(self.button)
 
+        # 创建表格
         self.table_widget = QTableWidget(self)
+        # 表格放入页面
         self.layout.addWidget(self.table_widget)
+
+        res = mr.get_list()
+        self.populate_table(res)
 
     # 更新提醒数据
     def on_button_click(self):

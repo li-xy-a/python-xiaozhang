@@ -7,6 +7,7 @@ import view.home_view as hv
     主菜单页面
 """
 
+
 class MyWindow(QMainWindow):
     def __init__(self):
         super().__init__()

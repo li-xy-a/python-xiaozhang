@@ -17,7 +17,7 @@ def get_expire():
     sheet = wb.worksheets[0]
     rows = list(sheet.rows)
     # 医疗期提醒sheet
-    inform_sheet = wb['医疗期提醒']
+    inform_sheet = wb[gp.sick_leave_execl_sheet_name]
     inform_values = inform_sheet.iter_cols(min_col=1, max_col=1, values_only=True)
     inform_list = tuple(inform_values)[0]
     res = []
@@ -45,7 +45,7 @@ def input_execl_date(file_path, data):
     if data is not None and len(data) > 0:
         try:
             wb = openpyxl.load_workbook(file_path)
-            sheet = wb["医疗期提醒"]
+            sheet = wb[gp.sick_leave_execl_sheet_name]
             for row in data:
                 sheet.append(row)
             wb.save(file_path)
@@ -63,9 +63,14 @@ def get_list():
     list_res = []
     try:
         wb = openpyxl.load_workbook(file_path)
-        sheet = wb['医疗期提醒']
+        sheet = wb[gp.sick_leave_execl_sheet_name]
         for row in sheet.iter_rows(values_only=True):
             list_res.append(row)
+        # 保留第一条数据
+        first = list_res[0]
+        list_res.remove(first)
+        list_res = sorted(list_res, key=lambda x: (x[4], x[3],), reverse=True)
+        list_res.insert(0, first)
     except Exception as e:
         print(f"Error: {e}")
     return list_res
@@ -80,7 +85,7 @@ def remind(id):
     file_path = gp.sick_leave_execl_path
     try:
         wb = openpyxl.load_workbook(file_path)
-        sheet = wb['医疗期提醒']
+        sheet = wb[gp.sick_leave_execl_sheet_name]
 
         for row_index, row in enumerate(sheet.iter_rows(min_row=2, values_only=True), start=2):
             if row[0] == id:
@@ -92,4 +97,4 @@ def remind(id):
 
 
 if __name__ == '__main__':
-    remind(1)
+    print(get_list())
