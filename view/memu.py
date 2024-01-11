@@ -1,7 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QAction, QVBoxLayout, QWidget
-import view.medical_reminder_view as mrv
+import view.sick_leave.medical_reminder_view as mrv
 import view.home_view as hv
+import view.sick_leave.sick_leave_view as slv
 
 """
     主菜单页面
@@ -18,7 +19,7 @@ class MyWindow(QMainWindow):
         self.central_widget = None  # 初始时 central_widget 为 None
         self.home_page = hv.HomePage()
         self.medical_reminder_page = mrv.MedicalReminderPage()
-        self.page2 = Page2()
+        self.sick_leave_page = slv.SickLeavePage()
 
         self.setCentralWidget(self.home_page)  # 设置初始的 central_widget
 
@@ -39,8 +40,8 @@ class MyWindow(QMainWindow):
         page1_action.triggered.connect(self.show_medical_reminder)
         menu.addAction(page1_action)
 
-        page2_action = QAction("病假显示", self)
-        page2_action.triggered.connect(self.show_page2)
+        page2_action = QAction("病假管理", self)
+        page2_action.triggered.connect(self.show_sick_leave)
         menu.addAction(page2_action)
 
         exit_action = QAction("退出", self)
@@ -49,27 +50,9 @@ class MyWindow(QMainWindow):
 
     def show_home(self):
         self.setCentralWidget(self.home_page)
-        self.label.setText("小张来啦")
 
     def show_medical_reminder(self):
         self.setCentralWidget(self.medical_reminder_page)
-        self.label.setText("医疗期提醒页面")
 
-    def show_page2(self):
-        self.setCentralWidget(self.page2)
-        self.label.setText("这是页面 2")
-
-
-class Page2(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.layout = QVBoxLayout(self)
-        self.label = QLabel("这是页面 2")
-        self.layout.addWidget(self.label)
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MyWindow()
-    window.show()
-    sys.exit(app.exec_())
+    def show_sick_leave(self):
+        self.setCentralWidget(self.sick_leave_page)
